@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário de Perfil Funcional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="p-4 sm:p-6">
+
+    <div id="roleSelectionScreen" class="container full-screen-center">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 mb-8">Bem-vindo(a)</h1>
+        <p class="text-lg text-gray-600 mb-8">Por favor, selecione seu perfil de acesso:</p>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full justify-center">
+            <button onclick="showCandidateWelcome()" class="action-button">
+                Sou Candidato
+            </button>
+            <button onclick="showRecruiterLogin()" class="action-button bg-purple-600 hover:bg-purple-700">
+                Sou Recrutador
+            </button>
+        </div>
+    </div>
+
+    <div id="candidateWelcomeScreen" class="container full-screen-center hidden">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-700 mb-4">Bem-vindo(a) ao</h2>
+        <div class="flex flex-col items-center mb-6">
+            <img src="https://i.ibb.co/Rk9WMZ4P/Whats-App-Image-2025-08-26-at-14-58-44.jpg" alt="Logo Conectar RH Consultoria" class="w-24 h-24 mb-4 rounded-full border-4 border-gray-200">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900">Conecta RH Consultoria</h1>
+        </div>
+        <p class="text-lg text-gray-600 mb-8">Por favor, clique abaixo para iniciar o questionário de perfil profissional.</p>
+        <button onclick="startQuestionnaire()" class="action-button">
+            Começar
+        </button>
+        <button onclick="showRoleSelection()" class="mt-4 text-gray-500 hover:text-gray-700 transition duration-200">
+            &lt; Voltar
+        </button>
+    </div>
+
+    <div id="recruiterLoginScreen" class="container full-screen-center hidden">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">Acesso do Recrutador</h2>
+        <form id="loginForm" class="w-full max-w-sm">
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 font-bold mb-2 text-left">E-mail de Acesso:</label>
+                <input type="email" id="username" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Digite seu e-mail" required>
+            </div>
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 font-bold mb-2 text-left">Senha:</label>
+                <input type="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Digite sua senha" required>
+            </div>
+            <button type="button" onclick="loginRecruiter()" class="action-button bg-purple-600 hover:bg-purple-700">
+                Entrar
+            </button>
+            <div id="loginMessage" class="text-red-500 mt-4 hidden"></div>
+        </form>
+        <button onclick="showRoleSelection()" class="mt-4 text-gray-500 hover:text-gray-700 transition duration-200">
+            &lt; Voltar
+        </button>
+    </div>
+    
+    <div id="recruiterDashboard" class="container full-screen-center hidden">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-8">Bem-vindo, Recrutador</h2>
+        <p class="text-lg text-gray-600 mb-8">Selecione uma ação:</p>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full justify-center">
+            <button onclick="viewAllResults()" class="action-button bg-green-600 hover:bg-green-700">
+                Ver Resultados Salvos
+            </button>
+            <button onclick="startQuestionnaire(true)" class="action-button">
+                Responder o Questionário
+            </button>
+        </div>
+        <button onclick="showRoleSelection()" class="mt-4 text-gray-500 hover:text-gray-700 transition duration-200">
+            Sair
+        </button>
+    </div>
+
+    <div id="questionnaire" class="hidden">
+        <div class="container">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-center text-gray-900 mb-8">Questionário de Perfil Funcional</h1>
+            <p class="text-center text-gray-600 mb-8">Este questionário interativo ajuda a identificar seu perfil profissional, baseando-se em suas atitudes e preferências. Use a barra deslizante para indicar o quão próximo você se sente de cada uma das opções.</p>
+            
+            <form id="employeeForm" class="space-y-6">
+                <div class="question-card">
+                    <label for="name" class="block text-gray-700 font-bold mb-2">Seu nome completo:</label>
+                    <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite seu nome completo" required>
+                </div>
+                
+                <div class="question-card">
+                    <label for="email" class="block text-gray-700 font-bold mb-2">Seu e-mail:</label>
+                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite um e-mail válido" required>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">1. Cenário: Ao iniciar um novo projeto, você prefere ter autonomia para planejar e executar, ou seguir um plano já detalhado?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Prefere seguir plano</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q1" id="q1" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Prefere ter autonomia</span>
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">2. Cenário: Um processo na empresa é ineficiente. Qual a sua atitude em relação a propor melhorias e otimizações?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Espero que as melhorias sejam definidas pela equipe ou liderança.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q2" id="q2" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Busco ativamente por oportunidades de otimização, mesmo sem ser solicitado.</span>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">3. Cenário: A empresa adota uma nova tecnologia. Qual a sua abordagem para dominá-la?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Prefiro esperar pelo treinamento oficial da empresa.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q3" id="q3" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Busco tutoriais e recursos externos para me aprofundar no assunto.</span>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">4. Cenário: Um colega de equipe precisa de ajuda. Qual o seu comportamento para ajudá-lo a resolver o problema?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Dou a informação que a pessoa precisa para resolver o problema.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q4" id="q4" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Ajudo a identificar a causa raiz do problema e a construir uma solução duradoura.</span>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">5. Cenário: Um cliente tem uma reclamação que não é sua responsabilidade direta. Qual a sua atitude em relação ao problema?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">O cliente deve ser direcionado à pessoa responsável por aquele setor.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q5" id="q5" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Tento resolver o problema por conta própria, mesmo que não seja minha área, antes de direcionar.</span>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">6. Cenário: Seu líder pede que você assuma uma tarefa fora de sua área de atuação. Como você reage ao desafio?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Prefiro focar nas minhas responsabilidades atuais, onde sei que posso entregar com excelência.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q6" id="q6" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Vejo a oportunidade como um desafio para crescer e desenvolver novas habilidades.</span>
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">7. Cenário: A empresa lança um novo produto. Qual a sua atitude em relação a ele?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Considero a divulgação uma responsabilidade do departamento de marketing.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q7" id="q7" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Fico motivado em compartilhar o valor do produto e da empresa com outras pessoas.</span>
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">8. Cenário: Você tem uma solução para um problema. Como você age para comunicar sua ideia?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Prefiro seguir a hierarquia e conversar primeiro com o meu gestor.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q8" id="q8" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Sinto-me à vontade para conversar com líderes de outras áreas para agilizar a solução.</span>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-gray-800 mb-4">9. Cenário: Você tem uma ideia que pode gerar um novo modelo de negócio para a empresa. Você a leva para o seu gestor ou tenta desenvolvê-la por conta própria?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Leva para o gestor</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q9" id="q9" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Desenvolve por conta própria</span>
+                    </div>
+                </div>
+
+                <div class="question-card">
+                    <p class="font-semibold text-semibold text-gray-800 mb-4">10. Cenário: Você recebe uma tarefa nova e não sabe como realizá-la. Qual a sua abordagem para aprender o que precisa?</p>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4">
+                        <span class="text-sm text-gray-500 mb-2 sm:mb-0 text-center sm:text-left w-full sm:w-auto">Acredito que a empresa deve fornecer o treinamento necessário para a tarefa.</span>
+                        <div class="score-scale w-full">
+                            <input type="range" name="q10" id="q10" min="1" max="5" value="3" class="w-full">
+                        </div>
+                        <span class="text-sm text-gray-500 mt-2 sm:mt-0 text-center sm:text-right w-full sm:w-auto">Sinto que é minha responsabilidade buscar o conhecimento, independentemente da empresa.</span>
+                    </div>
+                </div>
+            </form>
+
+            <button type="button" id="submitButton" onclick="submitResults()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 mt-4">
+                Finalizar Questionário
+            </button>
+            
+            <div id="statusMessage" class="result-box hidden text-center"></div>
+            
+            <button onclick="showRecruiterDashboard()" id="backFromQuestionnaire" class="mt-4 text-gray-500 hover:text-gray-700 transition duration-200 hidden">
+                &lt; Voltar
+            </button>
+            <button onclick="showCandidateWelcome()" id="backFromQuestionnaireForCandidate" class="mt-4 text-gray-500 hover:text-gray-700 transition duration-200 hidden">
+                &lt; Voltar
+            </button>
+        </div>
+    </div>
+    
+    <div id="resultsView" class="hidden">
+        <div class="container">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Resultados Salvos</h2>
+                <button onclick="showRecruiterDashboard()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200">
+                    Voltar
+                </button>
+            </div>
+            <div id="resultsList" class="space-y-4"></div>
+        </div>
+    </div>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <h3 class="font-bold text-lg mb-4">Aviso</h3>
+            <p id="modalMessage" class="text-gray-700 mb-6"></p>
+            <button onclick="document.getElementById('infoModal').style.display='none'" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200">
+                OK
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+
+</body>
+</html>
